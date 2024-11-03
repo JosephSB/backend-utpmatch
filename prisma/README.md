@@ -10,5 +10,8 @@
 - RUN `npx prisma generate`
 - RUN `npx prisma db push`
 
+## GENERATE SQL CREATE QUERY: 
+- RUN `npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/generated.sql`
+
 ## RUN SEEDERS: 
 
