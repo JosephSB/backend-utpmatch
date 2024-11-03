@@ -1,0 +1,187 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Interests {
+  interest_id BigInt   @id @default(autoincrement())
+  name        String   @db.VarChar(50)
+  is_active   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users UserInterest[]
+
+  @@map("interests")
+}
+
+model Users {
+  user_id          String   @id @default(uuid())
+  email            String?  @unique @db.VarChar(100)
+  password         String   @db.VarChar(100)
+  terms_conditions Boolean  @default(true)
+  is_active        Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  photos      Photos[]
+  userDetail  UserDetail[]
+  interests   UserInterest[]
+  transmitter Match[]        @relation("Transmitter")
+  receiver    Match[]        @relation("Receiver")
+
+  @@map("users")
+}
+
+model UserInterest {
+  user    Users  @relation(fields: [user_id], references: [user_id])
+  user_id String
+
+  interest    Interests @relation(fields: [interest_id], references: [interest_id])
+  interest_id BigInt
+
+  @@id([user_id, interest_id])
+  @@map("user_interests")
+}
+
+model Photos {
+  photo_id String @id @default(uuid())
+
+  users   Users  @relation(fields: [user_id], references: [user_id])
+  user_id String
+
+  file_name     String   @db.VarChar(100)
+  file_url      String   @db.VarChar(150)
+  medium_url    String   @db.VarChar(150)
+  thumbnail_url String   @db.VarChar(150)
+  order         Int
+  is_active     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("photos")
+}
+
+model Match {
+  match_id String @id @default(uuid())
+
+  transmitter    Users  @relation("Transmitter", fields: [transmitter_id], references: [user_id])
+  transmitter_id String
+
+  receiver    Users  @relation("Receiver", fields: [receiver_id], references: [user_id])
+  receiver_id String
+
+  matchStatus MatchStatus @relation(fields: [status_id], references: [match_status_id])
+  status_id   BigInt
+
+  is_active Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("match")
+}
+
+model MatchStatus {
+  match_status_id BigInt   @id @default(autoincrement())
+  name            String   @db.VarChar(50)
+  is_active       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  match Match[]
+
+  @@map("match_status")
+}
+
+model Career {
+  career_id BigInt   @id @default(autoincrement())
+  name      String   @db.VarChar(50)
+  is_active Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userDetail UserDetail[]
+
+  @@map("careers")
+}
+
+model Intention {
+  intention_id BigInt   @id @default(autoincrement())
+  name         String   @db.VarChar(50)
+  is_active    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  userDetail UserDetail[]
+
+  @@map("intentions")
+}
+
+model Campus {
+  campus_id BigInt   @id @default(autoincrement())
+  name      String   @db.VarChar(50)
+  is_active Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userDetail UserDetail[]
+
+  @@map("campus")
+}
+
+model FavoriteSong {
+  favorite_song_id     String   @id @default(uuid())
+  song_id              String   @db.VarChar(20)
+  title                String   @db.VarChar(100)
+  url_preview          String   @db.VarChar(150)
+  song_image           String   @db.VarChar(150)
+  song_image_thumbnail String   @db.VarChar(150)
+  artist_name          String   @db.VarChar(100)
+  is_active            Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  userDetail UserDetail[]
+
+  @@map("favorite_songs")
+}
+
+model UserDetail {
+  detail_user_id String @id @default(uuid())
+
+  user    Users  @relation(fields: [user_id], references: [user_id])
+  user_id String
+
+  name          String   @db.VarChar(50)
+  lastname      String   @db.VarChar(50)
+  description   String   @db.Text
+  birthdate     DateTime @db.Date
+  contact_phone String   @db.VarChar(15)
+
+  favoriteSong     FavoriteSong @relation(fields: [favorite_song_id], references: [favorite_song_id])
+  favorite_song_id String
+
+  campus    Campus @relation(fields: [campus_id], references: [campus_id])
+  campus_id BigInt
+
+  intention    Intention @relation(fields: [intention_id], references: [intention_id])
+  intention_id BigInt
+
+  career    Career @relation(fields: [career_id], references: [career_id])
+  career_id BigInt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user_detail")
+}
