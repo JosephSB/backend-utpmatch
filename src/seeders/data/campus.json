@@ -1,0 +1,14 @@
+[
+  { "id": 1, "name": "Lima Centro" },
+  { "id": 2, "name": "Lima Norte" },
+  { "id": 3, "name": "Lima Sur" },
+  { "id": 4, "name": "Ate" },
+  { "id": 5, "name": "San Juan de Lurigancho" },
+  { "id": 6, "name": "Arequipa" },
+  { "id": 7, "name": "Chiclayo" },
+  { "id": 8, "name": "Chimbote" },
+  { "id": 9, "name": "Piura" },
+  { "id": 10, "name": "Huancayo" },
+  { "id": 11, "name": "Ica" },
+  { "id": 12, "name": "Trujillo" }
+]

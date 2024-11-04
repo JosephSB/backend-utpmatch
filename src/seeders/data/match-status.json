@@ -1,0 +1,5 @@
+[
+  { "id": 1, "name": "Pending" },
+  { "id": 2, "name": "Match" },
+  { "id": 3, "name": "Denied" }
+]
