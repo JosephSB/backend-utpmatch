@@ -5,9 +5,16 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CampusModule } from './campus/campus.module';
 import { CareerModule } from './career/career.module';
+import { IntentionsModule } from './intentions/intentions.module';
 
 @Module({
-  imports: [AuthModule, UserModule, CampusModule, CareerModule],
+  imports: [
+    AuthModule,
+    UserModule,
+    CampusModule,
+    CareerModule,
+    IntentionsModule,
+  ],
   controllers: [],
   providers: [
     {
