@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { CampusModule } from './campus/campus.module';
 import { CareerModule } from './career/career.module';
 import { IntentionsModule } from './intentions/intentions.module';
+import { InterestModule } from './interest/interest.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { IntentionsModule } from './intentions/intentions.module';
     CampusModule,
     CareerModule,
     IntentionsModule,
+    InterestModule,
   ],
   controllers: [],
   providers: [
