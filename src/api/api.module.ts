@@ -8,9 +8,12 @@ import { CareerModule } from './career/career.module';
 import { IntentionsModule } from './intentions/intentions.module';
 import { InterestModule } from './interest/interest.module';
 import { SongsModule } from './songs/songs.module';
+import { PhotosModule } from './photos/photos.module';
+import { SupabaseModule } from '@libs/supabase/supabase.module';
 
 @Module({
   imports: [
+    SupabaseModule,
     AuthModule,
     UserModule,
     CampusModule,
@@ -18,6 +21,7 @@ import { SongsModule } from './songs/songs.module';
     IntentionsModule,
     InterestModule,
     SongsModule,
+    PhotosModule,
   ],
   controllers: [],
   providers: [
