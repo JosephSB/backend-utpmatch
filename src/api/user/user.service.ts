@@ -39,15 +39,7 @@ export class UserService {
             user_id: true,
             interests: {
               select: {
-                interest: {
-                  select: {
-                    interest_id: true,
-                    name: true,
-                    is_active: true,
-                    createdAt: true,
-                    updatedAt: true,
-                  },
-                },
+                interest: true,
               },
             },
             favoriteSong: true,
@@ -65,11 +57,96 @@ export class UserService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(user_id: string) {
+    const user = await this.prisma.userDetail.findFirst({
+      where: {
+        user_id,
+        user: {
+          is_active: true,
+        },
+      },
+      include: {
+        career: true,
+        campus: true,
+        intention: true,
+        user: {
+          select: {
+            email: true,
+            user_id: true,
+            interests: {
+              select: {
+                interest: true,
+              },
+            },
+            favoriteSong: true,
+            photos: true,
+          },
+        },
+      },
+    });
+
+    return {
+      message: 'ok',
+      data: user ? UserMapper(user) : null,
+    };
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(user_id: string, updateUserDto: UpdateUserDto) {
+    if (updateUserDto.interests) {
+      await this.prisma.userInterest.deleteMany({
+        where: {
+          user_id,
+        },
+      });
+      await this.prisma.userInterest.createMany({
+        data: updateUserDto.interests.map((x) => ({
+          user_id,
+          interest_id: x,
+        })),
+      });
+    }
+
+    const update_user_detail = await this.prisma.userDetail.update({
+      where: {
+        user_id,
+      },
+      data: {
+        name: updateUserDto.name,
+        lastname: updateUserDto.lastname,
+        description: updateUserDto.description,
+        birthdate: updateUserDto.birthdate
+          ? new Date(updateUserDto.birthdate)
+          : undefined,
+        contact_phone: updateUserDto.contact_phone,
+        career_id: updateUserDto.career_id,
+        campus_id: updateUserDto.campus_id,
+        intention_id: updateUserDto.intention_id,
+      },
+      include: {
+        career: true,
+        campus: true,
+        intention: true,
+        user: {
+          select: {
+            email: true,
+            user_id: true,
+            interests: {
+              select: {
+                interest: true,
+              },
+            },
+            favoriteSong: true,
+            photos: true,
+          },
+        },
+      },
+    });
+
+    const mapper = UserMapper(update_user_detail);
+
+    return {
+      message: 'ok',
+      data: mapper,
+    };
   }
 }

@@ -15,7 +15,7 @@ export const UserMapper = (data: any): IUser => {
       ...data.intention,
       intention_id: parseInt(data.intention.intention_id),
     },
-    interests: data.user.interests.map((x: any) => ({
+    interests: (data.user?.interests ?? []).map((x: any) => ({
       ...x.interest,
       interest_id: parseInt(x.interest.interest_id),
     })),
