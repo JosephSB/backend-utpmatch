@@ -34,6 +34,7 @@ model Users {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
+  favoriteSong FavoriteSong[]
   photos      Photos[]
   userDetail  UserDetail[]
   interests   UserInterest[]
@@ -61,9 +62,9 @@ model Photos {
   user_id String
 
   file_name     String   @db.VarChar(100)
-  file_url      String   @db.VarChar(150)
-  medium_url    String   @db.VarChar(150)
-  thumbnail_url String   @db.VarChar(150)
+  file_url      String   @db.VarChar(200)
+  medium_url    String   @db.VarChar(200)
+  thumbnail_url String   @db.VarChar(200)
   order         Int
   is_active     Boolean  @default(true)
   createdAt     DateTime @default(now())
@@ -141,6 +142,10 @@ model Campus {
 
 model FavoriteSong {
   favorite_song_id     String   @id @default(uuid())
+
+  user    Users  @relation(fields: [user_id], references: [user_id])
+  user_id String
+
   song_id              String   @db.VarChar(20)
   title                String   @db.VarChar(100)
   url_preview          String   @db.VarChar(150)
@@ -151,8 +156,6 @@ model FavoriteSong {
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 
-  userDetail UserDetail[]
-
   @@map("favorite_songs")
 }
 
@@ -160,16 +163,13 @@ model UserDetail {
   detail_user_id String @id @default(uuid())
 
   user    Users  @relation(fields: [user_id], references: [user_id])
-  user_id String
+  user_id String @unique
 
   name          String   @db.VarChar(50)
   lastname      String   @db.VarChar(50)
   description   String   @db.Text
   birthdate     DateTime @db.Date
   contact_phone String   @db.VarChar(15)
-
-  favoriteSong     FavoriteSong @relation(fields: [favorite_song_id], references: [favorite_song_id])
-  favorite_song_id String
 
   campus    Campus @relation(fields: [campus_id], references: [campus_id])
   campus_id BigInt

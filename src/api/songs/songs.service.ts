@@ -3,10 +3,14 @@ import { HttpService } from '@nestjs/axios';
 
 import { SearchSongsDto } from './dto/search-songs.dto';
 import { SongsMapper } from './mappers/songs.mapper';
+import { PrismaService } from '@libs/prisma/prisma.service';
 
 @Injectable()
 export class SongsService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private prisma: PrismaService,
+  ) {}
 
   async search(searchSongsDto: SearchSongsDto) {
     const resp = await this.httpService.axiosRef.get(

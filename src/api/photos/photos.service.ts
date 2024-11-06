@@ -49,8 +49,8 @@ export class PhotosService {
     const temp_path = `${userRequest.user_id}/${file_id}`;
 
     this.photosStorage.uploadImage(file, userRequest.user_id, file_id);
-    this.uploadPhotoSharp(file_id, file, userRequest, 900, '-medium');
-    this.uploadPhotoSharp(file_id, file, userRequest, 300, '-thumbnail');
+    this.uploadPhotoSharp(file_id, file, userRequest, 900, 'medium');
+    this.uploadPhotoSharp(file_id, file, userRequest, 300, 'thumbnail');
 
     const photo = await this.prisma.photos.create({
       data: {
