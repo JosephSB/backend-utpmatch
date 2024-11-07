@@ -35,11 +35,11 @@ model Users {
   updatedAt        DateTime @updatedAt
 
   favoriteSong FavoriteSong[]
-  photos      Photos[]
-  userDetail  UserDetail[]
-  interests   UserInterest[]
-  transmitter Match[]        @relation("Transmitter")
-  receiver    Match[]        @relation("Receiver")
+  photos       Photos[]
+  userDetail   UserDetail[]
+  interests    UserInterest[]
+  transmitter  Match[]        @relation("Transmitter")
+  receiver     Match[]        @relation("Receiver")
 
   @@map("users")
 }
@@ -141,7 +141,7 @@ model Campus {
 }
 
 model FavoriteSong {
-  favorite_song_id     String   @id @default(uuid())
+  favorite_song_id String @id @default(uuid())
 
   user    Users  @relation(fields: [user_id], references: [user_id])
   user_id String
