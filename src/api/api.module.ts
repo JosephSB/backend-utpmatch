@@ -10,6 +10,7 @@ import { InterestModule } from './interest/interest.module';
 import { SongsModule } from './songs/songs.module';
 import { PhotosModule } from './photos/photos.module';
 import { SupabaseModule } from '@libs/supabase/supabase.module';
+import { MatchModule } from './match/match.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { SupabaseModule } from '@libs/supabase/supabase.module';
     InterestModule,
     SongsModule,
     PhotosModule,
+    MatchModule,
   ],
   controllers: [],
   providers: [
