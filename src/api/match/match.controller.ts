@@ -65,6 +65,11 @@ export class MatchController {
     );
   }
 
+  @Get('/ranking')
+  getRanking() {
+    return this.matchService.getRanking();
+  }
+
   @Get('/my-matchs')
   @UsePipes(new ValidationPipe({ transform: true }))
   getMatchs(

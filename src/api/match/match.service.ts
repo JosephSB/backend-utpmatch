@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { ListParamsDto } from './dto/list-params.dto';
 import {
   MatchMapper,
+  MatchRankingMapper,
   NewMatchMapper,
   UserMatchMapper,
 } from './mappers/match.mappers';
@@ -79,12 +80,44 @@ export class MatchService {
       include: {
         transmitter: {
           select: {
-            userDetail: true,
+            user_id: true,
+            email: true,
+            is_active: true,
+            photos: true,
+            userDetail: {
+              select: {
+                name: true,
+                lastname: true,
+                description: true,
+                contact_phone: true,
+                birthdate: true,
+                createdAt: true,
+                updatedAt: true,
+                campus: true,
+                career: true,
+              },
+            },
           },
         },
         receiver: {
           select: {
-            userDetail: true,
+            user_id: true,
+            email: true,
+            is_active: true,
+            photos: true,
+            userDetail: {
+              select: {
+                name: true,
+                lastname: true,
+                description: true,
+                contact_phone: true,
+                birthdate: true,
+                createdAt: true,
+                updatedAt: true,
+                campus: true,
+                career: true,
+              },
+            },
           },
         },
       },
@@ -154,6 +187,17 @@ export class MatchService {
       limit: listParamsDto.size ?? 10,
       message: 'ok',
       data: matchs.map((x) => UserMatchMapper(x)),
+    };
+  }
+
+  async getRanking() {
+    const result: any = await this.prisma.$queryRaw`
+      SELECT * FROM get_top_matches();
+    `;
+
+    return {
+      message: 'ok',
+      data: result.map((x: any) => MatchRankingMapper(x)),
     };
   }
 }
