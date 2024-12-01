@@ -1,5 +1,5 @@
 import { IUser } from '@api/user/entities/user.entity';
-import { IMatch, INewMatch } from '../entities/match.entity';
+import { IMatch, IMatchRanking, INewMatch } from '../entities/match.entity';
 
 export const NewMatchMapper = (data: any): INewMatch => {
   return {
@@ -20,25 +20,43 @@ export const MatchMapper = (data: any): IMatch => {
   return {
     match_id: data.match_id,
     transmitter: {
-      user_id: data.transmitter.userDetail[0].user_id,
-      email: data.transmitter.userDetail[0].email,
+      user_id: data.transmitter.user_id,
+      email: data.transmitter.email,
       name: data.transmitter.userDetail[0].name,
       lastname: data.transmitter.userDetail[0].lastname,
       description: data.transmitter.userDetail[0].description,
       birthdate: data.transmitter.userDetail[0].birthdate,
       contact_phone: data.transmitter.userDetail[0].contact_phone,
-      is_active: data.transmitter.userDetail[0].is_active,
+      career: {
+        ...data.transmitter.userDetail[0].career,
+        career_id: parseInt(data.transmitter.userDetail[0].career.career_id),
+      },
+      campus: {
+        ...data.transmitter.userDetail[0].campus,
+        campus_id: parseInt(data.transmitter.userDetail[0].campus.campus_id),
+      },
+      photos: data.transmitter.photos,
+      is_active: data.transmitter.is_active,
       createdAt: new Date(data.transmitter.userDetail[0].createdAt),
       updatedAt: new Date(data.transmitter.userDetail[0].updatedAt),
     },
     receiver: {
-      user_id: data.receiver.userDetail[0].user_id,
-      email: data.receiver.userDetail[0].email,
+      user_id: data.transmitter.user_id,
+      email: data.transmitter.email,
       name: data.receiver.userDetail[0].name,
       lastname: data.receiver.userDetail[0].lastname,
       description: data.receiver.userDetail[0].description,
       birthdate: data.receiver.userDetail[0].birthdate,
       contact_phone: data.receiver.userDetail[0].contact_phone,
+      career: {
+        ...data.receiver.userDetail[0].career,
+        career_id: parseInt(data.receiver.userDetail[0].career.career_id),
+      },
+      campus: {
+        ...data.receiver.userDetail[0].campus,
+        campus_id: parseInt(data.receiver.userDetail[0].campus.campus_id),
+      },
+      photos: data.receiver.photos,
       is_active: data.receiver.is_active,
       createdAt: new Date(data.receiver.userDetail[0].createdAt),
       updatedAt: new Date(data.receiver.userDetail[0].updatedAt),
@@ -75,5 +93,15 @@ export const UserMatchMapper = (data: any): IUser => {
     is_active: data.is_active,
     createdAt: new Date(data.userDetail[0].createdAt),
     updatedAt: new Date(data.userDetail[0].updatedAt),
+  };
+};
+
+export const MatchRankingMapper = (data: any): IMatchRanking => {
+  return {
+    user_id: data.user_id,
+    name: data.name,
+    lastname: data.lastname,
+    photo_url: data.photo_url,
+    total_matches: parseInt(data.total_matches),
   };
 };
