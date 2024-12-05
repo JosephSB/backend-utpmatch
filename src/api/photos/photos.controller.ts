@@ -31,7 +31,7 @@ export class PhotosController {
       new ParseFilePipe({
         validators: [
           new MaxFileSizeValidator({ maxSize: config.FILE.MAX_SIZE }),
-          new ImageFileTypeValidator(MIMETYPES.map((x) => x.name)),
+          //new ImageFileTypeValidator(MIMETYPES.map((x) => x.name)),
           new MinImageDimensionsValidator(
             config.FILE.IMAGE.MIN_WIDTH,
             config.FILE.IMAGE.MIN_HEIGHT,
