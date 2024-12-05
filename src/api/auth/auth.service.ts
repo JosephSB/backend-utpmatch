@@ -66,6 +66,9 @@ export class AuthService {
 
     return {
       message: 'ok',
+      data: {
+        user_id: user.user_id,
+      },
       token,
     };
   }

@@ -41,8 +41,8 @@ export const MatchMapper = (data: any): IMatch => {
       updatedAt: new Date(data.transmitter.userDetail[0].updatedAt),
     },
     receiver: {
-      user_id: data.transmitter.user_id,
-      email: data.transmitter.email,
+      user_id: data.receiver.user_id,
+      email: data.receiver.email,
       name: data.receiver.userDetail[0].name,
       lastname: data.receiver.userDetail[0].lastname,
       description: data.receiver.userDetail[0].description,
